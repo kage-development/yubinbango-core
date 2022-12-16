@@ -1,4 +1,10 @@
-type Addr = Record<string, string>
+type Addr = {
+  region_id: number
+  region: string
+  locality: string
+  street: string
+  extended: string
+}
 type Yubin7 = string
 type YubinResult = Record<Yubin7, Array<string>>
 type YubinCallback = (data: YubinResult) => void
@@ -50,19 +56,19 @@ module YubinBango {
         return val;
       }
     }
-    addrDic(region_id?: string, region?: string|null, locality?: string, street?: string, extended?: string):{[key:string]: string} {
+    addrDic(region_id?: number, region?: string|null, locality?: string, street?: string, extended?: string): Addr {
       return {
-        'region_id': region_id ?? '',
+        'region_id': region_id ?? 0,
         'region': region ?? '',
         'locality': locality ?? '',
         'street': street ?? '',
         'extended': extended ?? ''
       };
     }
-    selectAddr(addr: string[]):{[key:string]: string} {
+    selectAddr(addr: string[]): Addr {
       if (addr && addr[0] && addr[1]) {
         const region_id = addr[0] as unknown as number
-        return this.addrDic(addr[0],this.REGION[region_id],addr[1],addr[2],addr[3])
+        return this.addrDic(region_id,this.REGION[region_id],addr[1],addr[2],addr[3])
       } else {
         return this.addrDic()
       }
