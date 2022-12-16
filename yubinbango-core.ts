@@ -1,6 +1,13 @@
 type Addr = Record<string, string>
 type Yubin7 = string
 let CACHE: Array<Record<Yubin7, Addr>> = [];
+
+declare global {
+  interface Window {
+    '$yubin': Callback;
+  }
+}
+
 module YubinBango {
   export class Core {
     URL = 'https://yubinbango.github.io/yubinbango-data/data';
