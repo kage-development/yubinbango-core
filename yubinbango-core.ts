@@ -16,7 +16,7 @@ module YubinBango {
       '福岡県', '佐賀県', '長崎県', '熊本県', '大分県',
       '宮崎県', '鹿児島県', '沖縄県'
     ];
-    constructor(inputVal: string = '', callback?) {
+    constructor(inputVal: string = '', callback?: (ret: Addr) => Addr) {
       if(inputVal){
         // 全角の数字を半角に変換 ハイフンが入っていても数字のみの抽出
         const a:string = inputVal.replace(/[０-９]/g, (s: string) => String.fromCharCode(s.charCodeAt(0) - 65248));
@@ -52,15 +52,15 @@ module YubinBango {
         return this.addrDic()
       }
     }
-    jsonp(url: string, fn) {
-      window['$yubin'] = (data) => fn(data);
+    jsonp(url: string, fn: (ret: Array<Record<Yubin7, Addr>>) => Addr) {
+      window['$yubin'] = (data: Array<Record<Yubin7, Addr>>) => fn(data);
       const scriptTag = document.createElement("script");
       scriptTag.setAttribute("type", "text/javascript");
       scriptTag.setAttribute("charset", "UTF-8");
       scriptTag.setAttribute("src", url);
       document.head.appendChild(scriptTag);
     }
-    getAddr(yubin7: string, fn):{[key:string]: string} {
+    getAddr(yubin7: string, fn: (ret: Addr) => Addr):{[key:string]: string} {
       const yubin3 = yubin7.substr(0, 3);
       // 郵便番号上位3桁でキャッシュデータを確認
       if (yubin3 in CACHE && yubin7 in CACHE[yubin3]) {
