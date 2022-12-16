@@ -72,7 +72,7 @@ module YubinBango {
       scriptTag.setAttribute("src", url);
       document.head.appendChild(scriptTag);
     }
-    getAddr(yubin7: string, fn: (ret: Addr) => Addr):{[key:string]: string} {
+    getAddr(yubin7: string, fn: Callback):{[key:string]: string} | undefined {
       const yubin3 = yubin7.substr(0, 3);
       // 郵便番号上位3桁でキャッシュデータを確認
       if (yubin3 in CACHE && yubin7 in CACHE[yubin3]) {
