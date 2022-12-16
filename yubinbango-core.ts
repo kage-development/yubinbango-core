@@ -22,7 +22,7 @@ module YubinBango {
         const a:string = inputVal.replace(/[０-９]/g, (s: string) => String.fromCharCode(s.charCodeAt(0) - 65248));
         const b:RegExpMatchArray | null = a.match(/\d/g);
         const c:string = b?.join('') ?? '';
-        const yubin7: string = this.chk7(c);
+        const yubin7: string | undefined = this.chk7(c);
         // 7桁の数字の時のみ作動
         if (yubin7) {
           this.getAddr(yubin7, callback);
