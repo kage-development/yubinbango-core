@@ -1,11 +1,14 @@
 type Addr = Record<string, string>
 type Yubin7 = string
-type Callback = (ret: Addr) => Addr
-let CACHE: Array<Record<Yubin7, Addr>> = [];
+type YubinResult = Record<Yubin7, Array<string>>
+type YubinCallback = (data: YubinResult) => void
+type Callback = (ret: Addr) => void
+
+let CACHE: Array<YubinResult> = []
 
 declare global {
   interface Window {
-    '$yubin': (data: Array<Record<Yubin7, Addr>>) => Addr;
+    '$yubin': YubinCallback;
   }
 }
 
@@ -24,7 +27,7 @@ module YubinBango {
       '福岡県', '佐賀県', '長崎県', '熊本県', '大分県',
       '宮崎県', '鹿児島県', '沖縄県'
     ];
-    constructor(inputVal: string = '', callback?: (ret: Addr) => Addr) {
+    constructor(inputVal: string = '', callback?: Callback) {
       if (callback === undefined) {
          return
       }
@@ -64,23 +67,23 @@ module YubinBango {
         return this.addrDic()
       }
     }
-    jsonp(url: string, fn: (ret: Array<Record<Yubin7, Addr>>) => Addr) {
-      window['$yubin'] = (data: Array<Record<Yubin7, Addr>>) => fn(data);
+    jsonp(url: string, fn: (ret: YubinResult) => void) {
+      window['$yubin'] = (data: YubinResult) => fn(data);
       const scriptTag = document.createElement("script");
       scriptTag.setAttribute("type", "text/javascript");
       scriptTag.setAttribute("charset", "UTF-8");
       scriptTag.setAttribute("src", url);
       document.head.appendChild(scriptTag);
     }
-    getAddr(yubin7: string, fn: Callback):{[key:string]: string} | undefined {
+    getAddr(yubin7: string, fn: Callback) {
       const yubin3 = yubin7.substr(0, 3);
       // 郵便番号上位3桁でキャッシュデータを確認
       if (yubin3 in CACHE && yubin7 in CACHE[yubin3]) {
-        return fn(this.selectAddr(CACHE[yubin3][yubin7]));
+        fn(this.selectAddr(CACHE[yubin3][yubin7]));
       } else {
         this.jsonp(`${this.URL}/${yubin3}.js`, (data) => {
           CACHE[yubin3] = data;
-          return fn(this.selectAddr(data[yubin7]));
+          fn(this.selectAddr(data[yubin7]));
         });
       }
     }
