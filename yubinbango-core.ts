@@ -17,6 +17,9 @@ module YubinBango {
       '宮崎県', '鹿児島県', '沖縄県'
     ];
     constructor(inputVal: string = '', callback?: (ret: Addr) => Addr) {
+      if (callback === undefined) {
+         return
+      }
       if(inputVal){
         // 全角の数字を半角に変換 ハイフンが入っていても数字のみの抽出
         const a:string = inputVal.replace(/[０-９]/g, (s: string) => String.fromCharCode(s.charCodeAt(0) - 65248));
