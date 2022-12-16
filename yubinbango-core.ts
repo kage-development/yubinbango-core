@@ -4,7 +4,7 @@ let CACHE: Array<Record<Yubin7, Addr>> = [];
 module YubinBango {
   export class Core {
     URL = 'https://yubinbango.github.io/yubinbango-data/data';
-    REGION: string[] = [
+    REGION: Array<string | null> = [
       null, '北海道', '青森県', '岩手県', '宮城県',
       '秋田県', '山形県', '福島県', '茨城県', '栃木県',
       '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県',
