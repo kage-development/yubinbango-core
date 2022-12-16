@@ -5,7 +5,7 @@ let CACHE: Array<Record<Yubin7, Addr>> = [];
 
 declare global {
   interface Window {
-    '$yubin': Callback;
+    '$yubin': (data: Array<Record<Yubin7, Addr>>) => Addr;
   }
 }
 
