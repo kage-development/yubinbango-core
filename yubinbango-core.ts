@@ -76,7 +76,7 @@ module YubinBango {
       document.head.appendChild(scriptTag);
     }
     getAddr(yubin7: string, fn: Callback) {
-      const yubin3 = yubin7.substr(0, 3);
+      const yubin3 = yubin7.substr(0, 3) as unknown as number;
       // 郵便番号上位3桁でキャッシュデータを確認
       if (yubin3 in CACHE && yubin7 in CACHE[yubin3]) {
         fn(this.selectAddr(CACHE[yubin3][yubin7]));
