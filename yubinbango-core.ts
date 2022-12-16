@@ -39,18 +39,19 @@ module YubinBango {
         return val;
       }
     }
-    addrDic(region_id = '', region = '', locality = '', street = '', extended = ''):{[key:string]: string} {
+    addrDic(region_id?: string, region?: string|null, locality?: string, street?: string, extended?: string):{[key:string]: string} {
       return {
-        'region_id': region_id,
-        'region': region,
-        'locality': locality,
-        'street': street,
-        'extended': extended
+        'region_id': region_id ?? '',
+        'region': region ?? '',
+        'locality': locality ?? '',
+        'street': street ?? '',
+        'extended': extended ?? ''
       };
     }
     selectAddr(addr: string[]):{[key:string]: string} {
       if (addr && addr[0] && addr[1]) {
-        return this.addrDic(addr[0],this.REGION[addr[0]],addr[1],addr[2],addr[3])
+        const region_id = addr[0] as unknown as number
+        return this.addrDic(addr[0],this.REGION[region_id],addr[1],addr[2],addr[3])
       } else {
         return this.addrDic()
       }
