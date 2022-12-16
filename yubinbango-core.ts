@@ -1,5 +1,6 @@
 type Addr = Record<string, string>
 type Yubin7 = string
+type Callback = (ret: Addr) => Addr
 let CACHE: Array<Record<Yubin7, Addr>> = [];
 
 declare global {
